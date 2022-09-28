@@ -25,12 +25,11 @@
 # print ("Площадь прямоугольника - " + str(sq))
 
 # определить четное число или нет
-def Is_even(a):
-    b = a % 2
-    if b == 0:
-        return "even"
-    else: 
-        return "not even"
+# def Is_even(a):
+#   if a % 2 == 0:
+#         return "even"
+#   else: 
+#     return "not even"
 
-a = int(input("unput numbers  "))
-print (Is_even(a))
+# a = int(input("unput numbers  "))
+# print (Is_even(a))
