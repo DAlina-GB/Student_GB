@@ -13,9 +13,9 @@ def InputNumbers(inputText):
 
 def checkNumber(num):
     if 6 <= num <= 7:
-        print("Yes")
+        print("Да")
     elif 0 < num < 6:
-        print("No")
+        print("Нет")
     else:
         print("число вне пределов 7 дней")
 
