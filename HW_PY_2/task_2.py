@@ -28,3 +28,12 @@ for e in range(1, num + 1):
     list.append(mult(e))
 
 print(f"Произведения чисел от 1 до {num}:  {list}")
+
+# Решения с семинара
+# n = int(input("Введите целое число N: "))
+# m = 1
+# res_list = []
+# for i in range(1, n + 1):
+# m *= i 
+# res_list.append(int(m))
+# print(f"Набор произведений чисел от 1 до {n}:", res_list)
