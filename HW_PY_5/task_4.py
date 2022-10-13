@@ -2,7 +2,7 @@
 
 task = str()
 
-path = 'data_task4.txt'
+path = '/Users/alina/Desktop/Seminar PY/HW_PY_5/data_task4.txt'
 data = open(path, 'r')
 for line in data:
     task = line
@@ -25,13 +25,13 @@ elif len(task) != 0:
             count = 1
     result += task[i] + str(count)
 
-with open('result_task4.txt', 'w') as data:
+with open('/Users/alina/Desktop/Seminar PY/HW_PY_5/result_task4.txt', 'w') as data:
     data.write(result)
 
-
+# Модуль восстановления
 task = str()
 
-path = 'result_task4.txt'
+path = '/Users/alina/Desktop/Seminar PY/HW_PY_5/result_task4.txt'
 data = open(path, 'r')
 for line in data:
     task = line
@@ -52,5 +52,5 @@ for i in task:
     else:
         num += i
 
-with open('recovery_task4.txt', 'w') as data:
+with open('/Users/alina/Desktop/Seminar PY/HW_PY_5/recovery_task4.txt', 'w') as data:
     data.write(result)
