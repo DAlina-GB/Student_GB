@@ -36,7 +36,7 @@ updater.dispatcher.add_handler(CommandHandler('w_d', w_d_command))
 updater.dispatcher.add_handler(CommandHandler('ran', ran_command))
 updater.dispatcher.add_handler(CommandHandler('calc', calc_command))
 updater.dispatcher.add_handler(CommandHandler('tictac', newGame))
-updater.dispatcher.add_handler(CommandHandler('new_game', newGame))
+# updater.dispatcher.add_handler(CommandHandler('new_game', newGame))
 updater.dispatcher.add_handler(MessageHandler(Filters.text, help_command))  # обработчик на любое текстовое сообщение
 updater.dispatcher.add_handler(CallbackQueryHandler(button))  # добавление обработчика на CallBack кнопки
 
