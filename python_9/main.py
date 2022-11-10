@@ -7,11 +7,11 @@ from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, MessageH
 from bot_commands import *
 import strings as st
 
-updater = Updater('5415981853:AAE4UXhwdqxW8_8vHn5DFIkjiMgxv78uiNw')
 
+BOT_TOKEN_FILENAME = 'token.txt'
 
 def getToken():
-    token = '5551618618:AAEIzUbEK5BFTQtPr9C75v_GQIDrc3K3a58'
+    token = '5415981853:AAE4UXhwdqxW8_8vHn5DFIkjiMgxv78uiNw'
     if os.path.isfile(st.BOT_TOKEN_FILENAME):
         f = open(st.BOT_TOKEN_FILENAME, "r")
         token = f.read()
@@ -34,10 +34,13 @@ updater.dispatcher.add_handler(CommandHandler('help', help_command))
 updater.dispatcher.add_handler(CommandHandler('sum', sum_command))
 updater.dispatcher.add_handler(CommandHandler('w_d', w_d_command))
 updater.dispatcher.add_handler(CommandHandler('ran', ran_command))
-updater.dispatcher.add_handler(CommandHandler('start', newGame))
+updater.dispatcher.add_handler(CommandHandler('calc', calc_command))
+updater.dispatcher.add_handler(CommandHandler('tictac', newGame))
 updater.dispatcher.add_handler(CommandHandler('new_game', newGame))
 updater.dispatcher.add_handler(MessageHandler(Filters.text, help_command))  # обработчик на любое текстовое сообщение
 updater.dispatcher.add_handler(CallbackQueryHandler(button))  # добавление обработчика на CallBack кнопки
 
+
+print('server start')
 updater.start_polling()
 updater.idle()

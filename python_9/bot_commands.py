@@ -5,10 +5,10 @@ from spy_log import *
 import random
 import strings as st
 
+
 def hi_command(update: Update, context: CallbackContext):
     log(update, context)
     update.message.reply_text(f'Hi {update.effective_user.first_name}!')
-
 
 def help_command(update: Update, context: CallbackContext):
     log(update, context)
@@ -85,76 +85,57 @@ def game(callBackData):
     message = st.ANSW_YOUR_TURN  # сообщение, которое вернется
     alert = None
 
-    buttonNumber = int(callBackData[0])  # считывание нажатой кнопки, преобразуя ее из строки в число
-    if not buttonNumber == 9:  # цифра 9 передается в первый раз в качестве заглушки. Т.е. если передана цифра 9, то клавиатура для сообщения создается впервые
-        charList = list(callBackData)  # строчка callBackData разбивается на посимвольный список "123" -> ['1', '2', '3']
-        charList.pop(0)  # удаление из списка первого элемента: который отвечает за выбор кнопки
+    buttonNumber = int(callBackData[0])  
+    if not buttonNumber == 9:  
+        charList = list(callBackData)  
+        charList.pop(0)  
         if charList[buttonNumber] == st.SYMBOL_UNDEF:  # проверка: если в нажатой кнопке не выбран крестик/нолик, то можно туда сходить крестику
-            charList[buttonNumber] = st.SYMBOL_X  # эмуляция хода крестика
-            if isWin(charList, st.SYMBOL_X):  # проверка: выиграл ли крестик после своего хода
-                message = st.ANSW_YOU_WIN
-            else:  # если крестик не выиграл, то может сходит бот, т.е. нолик
-                if countUndefinedCells(charList) != 0:  # проверка: есть ли свободные ячейки для хода
-                    # если есть, то ходит бот (нолик)
+            charList[buttonNumber] = st.SYMBOL_X  
+            if isWin(charList, st.SYMBOL_X):
+                 message = st.ANSW_YOU_WIN 
+            else:  
+                if countUndefinedCells(charList) != 0:  
+                    
                     isCycleContinue = True
-                    # запуск бесконечного цикла т.к. необходимо, чтобы бот походил в свободную клетку, а клетка выбирается случайным образом
+                    
                     while (isCycleContinue):
-                        rand = random.randint(0, 8)  # генерация случайного числа - клетки, в которую сходит бот
-                        if charList[rand] == st.SYMBOL_UNDEF:  # если клетка неопределенна, то ходит бот
+                        rand = random.randint(0, 8)  
+                        if charList[rand] == st.SYMBOL_UNDEF:  
                             charList[rand] = st.SYMBOL_O
-                            isCycleContinue = False  # смена значения переменной для остановки цикла
-                            if isWin(charList, st.SYMBOL_O):  # проверка: выиграл ли бот после своего кода
+                            isCycleContinue = False  
+                            if isWin(charList, st.SYMBOL_O):  
                                 message = st.ANSW_BOT_WIN
 
-        # если клетка, в которую хотел походить пользователь уже занята:
-        else:
+        
             alert = st.ALERT_CANNOT_MOVE_TO_THIS_CELL
 
-        # проверка: остались ли свободные ячейки для хода и что изначальное сообщение не поменялось (означает, что победителя нет, и что это был не ошибочный ход)
+       
         if countUndefinedCells(charList) == 0 and message == st.ANSW_YOUR_TURN:
             message = st.ANSW_DRAW
 
-        # формирование новой строчки callBackData на основе сделанного хода
+        
         callBackData = ''
         for c in charList:
             callBackData += c
 
-    # проверка, что игра закончилась (message равно одному из трех вариантов: победил Х, 0 или ничья):
+    
     if message == st.ANSW_YOU_WIN or message == st.ANSW_BOT_WIN or message == st.ANSW_DRAW:
         message += '\n'
         for i in range(0, 3):
             message += '\n | '
             for j in range(0, 3):
                 message += callBackData[j + i * 3] + ' | '
-        callBackData = None  # обнуление callBackData
+        callBackData = None  
 
     return message, callBackData, alert
 
 
-# Формат объекта клавиатуры
-# в этом примере описана клавиатура из трех строчек кнопок
-# в первой строчке две кнопки
-# во 2-ой и 3-ей строчке по одной
-# keyboard = [
-#     # строчка из кнопок:
-#     [
-#         # собственно кнопки
-#         InlineKeyboardButton("Кнопка 1", callback_data='1'),
-#         InlineKeyboardButton("Кнопка 2", callback_data='2'),
-#     ],
-#     [InlineKeyboardButton("Кнопка 3", callback_data='3')],
-#     [InlineKeyboardButton("Кнопка 4", callback_data='4')],
-# ]
-# для формирования объекта клавиатуры, необходимо выполнить следующую команду:
-# InlineKeyboardMarkup(keyboard)
 
-# возвращает клавиатуру для бота
-# на вход получает callBackData - данные с callBack-кнопки
 def getKeyboard(callBackData):
-    keyboard = [[], [], []]  # заготовка объекта клавиатуры, которая вернется
+    keyboard = [[], [], []] 
 
-    if callBackData != None:  # если
-        # формирование объекта клавиатуры
+    if callBackData != None:  
+      
         for i in range(0, 3):
             for j in range(0, 3):
                 keyboard[i].append(InlineKeyboardButton(callBackData[j + i * 3], callback_data=str(j + i * 3) + callBackData))
@@ -163,22 +144,46 @@ def getKeyboard(callBackData):
 
 
 def newGame(update, _):
-    # сформировать callBack данные для первой игры, то есть строку, состояющую из 9 неопределенных символов
+    
     data = ''
     for i in range(0, 9):
         data += st.SYMBOL_UNDEF
 
-    # отправить сообщение для начала игры
+
     update.message.reply_text(st.ANSW_YOUR_TURN, reply_markup=InlineKeyboardMarkup(getKeyboard(data)))
 
 
 def button(update, _):
     query = update.callback_query
-    callbackData = query.data  # получение callbackData, скрытых в кнопке
-
-    message, callbackData, alert = game(callbackData)  # игра
-    if alert is None:  # если не получен сигнал тревоги (alert==None), то редактируем сообщение и меняем клавиатуру
-        query.answer()  # обязательно нужно что-то отправить в ответ, иначе могут возникнуть проблемы с ботом
+    callbackData = query.data  
+    message, callbackData, alert = game(callbackData)  
+    if alert is None:  
+        query.answer()   
         query.edit_message_text(text=message, reply_markup=InlineKeyboardMarkup(getKeyboard(callbackData)))
-    else:  # если получен сигнал тревоги (alert!=None), то отобразить сообщение о тревоге
+    else:  
         query.answer(text=alert, show_alert=True)
+
+
+def hi_command(update: Update, context: CallbackContext):
+    log(update, context)
+    update.message.reply_text(f'Hi {update.effective_user.first_name}!')
+
+def help_command(update: Update, context: CallbackContext):
+    log(update, context)
+    update.message.reply_text(f'Калькулятор производит следующие действия над числами, в том числе с комплексными:'
+                              f'\nсложение "+", вычитание "-", умножение "*", деление"/", возведение в степень"**", остаток от деления "%"'
+                              f'\nпосле команды /calc между числами и действием необходимо ставить пробел, пример /calc 5 ** 2 или /calc 2-3j + 23+7j')
+
+def calc_command(update: Update, context: CallbackContext):
+    log(update, context)
+    msg = update.message.text
+    print(msg)
+    items = msg.split()
+    x = items[1]
+    action = items[2]
+    y = items[3]
+    exept = x + action + y
+    result=eval(exept)
+    print(f'{exept} = {result}')
+    update.message.reply_text(f'{x} {action} {y} = {result}')
+
